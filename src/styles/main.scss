@@ -1,0 +1,632 @@
+@import "./breakpoints.scss";
+$dark-mode-elements: hsl(209, 23%, 22%);
+$dark-mode-background: hsl(207, 26%, 17%);
+$light-mode-text: hsl(200, 15%, 8%);
+$light-mode-input: hsl(0, 0%, 52%);
+$light-mode-background: hsl(0, 0%, 98%);
+$dark-mode-text: hsl(0, 0%, 100%);
+$light-mode-elements: hsl(0, 0%, 100%);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+body {
+  background-color: $light-mode-background;
+}
+
+%decoration-none {
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+%navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  padding: 0 80px;
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
+
+  @include sm {
+    padding: 0 30px;
+  }
+
+  .navbar__header {
+    cursor: pointer;
+  }
+
+  .navbar__moon-icon {
+    margin: 0 10px 0 0;
+  }
+
+  .navbar__theme {
+    font-weight: 600;
+    cursor: pointer;
+
+    @include esm {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+}
+
+.navbar {
+  @extend %navbar;
+  @extend %decoration-none;
+  background-color: $light-mode-elements;
+  color: $light-mode-text;
+
+  &__dark {
+    @extend %navbar;
+    @extend %decoration-none;
+    background-color: $dark-mode-elements;
+    color: $dark-mode-text;
+  }
+}
+
+%options {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 80px;
+  @include md {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  @include sm {
+    padding: 30px 30px;
+  }
+
+  .options__search-icon {
+    color: gray;
+    padding: 0 0 0 20px;
+    margin: 0 20px 0 0;
+  }
+
+  .options__select-bar {
+    width: 200px;
+    height: 60px;
+  }
+
+  svg {
+    margin-left: 10px;
+  }
+}
+
+@mixin input-options($text-color) {
+  border: none;
+  outline: none;
+  background: inherit;
+  font-size: 16px;
+  height: 60px;
+  width: 100%;
+  border-radius: 5px;
+  color: $text-color;
+}
+
+%options__dropdown-toggle {
+  min-width: 176px;
+  max-width: 176px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+
+  @include md {
+    margin: 10px 0 0 0;
+  }
+}
+
+.options {
+  @extend %options;
+  background-color: $light-mode-background;
+  color: $light-mode-text;
+
+  &__dark {
+    @extend %options;
+    background-color: $dark-mode-background;
+    color: $dark-mode-text;
+  }
+
+  &__search-bar {
+    @extend %search-bar;
+    background-color: $light-mode-elements;
+    color: $light-mode-text;
+    flex-basis: 500px;
+
+    @include md {
+      flex-basis: 100%;
+    }
+
+    @include xxl {
+      flex-basis: 500px;
+    }
+
+    ::placeholder {
+      color: $light-mode-text;
+    }
+
+    &__dark {
+      @extend %search-bar;
+      background-color: $dark-mode-elements;
+      color: $dark-mode-text;
+      flex-basis: 500px;
+
+      @include md {
+        flex-basis: 100%;
+      }
+
+      @include xxl {
+        flex-basis: 500px;
+      }
+
+      ::placeholder {
+        color: $dark-mode-text;
+      }
+    }
+  }
+
+  &__input {
+    @include input-options($light-mode-text);
+
+    &__dark {
+      @include input-options($dark-mode-text);
+    }
+  }
+
+  &__dropdown-toggle {
+    @extend %options__dropdown-toggle;
+    background-color: $light-mode-elements;
+    color: $light-mode-text;
+
+    &__dark {
+      @extend %options__dropdown-toggle;
+      background-color: $dark-mode-elements;
+      color: $dark-mode-text;
+    }
+  }
+
+  @mixin options__dropdown-container($background-color) {
+    position: absolute;
+    margin: 5px 0 0 0;
+    background-color: $background-color;
+    min-width: 176px;
+    max-width: 176px;
+    padding: 20px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+
+  &__dropdown-menu {
+    @include options__dropdown-container($light-mode-elements);
+
+    &__dark {
+      @include options__dropdown-container($dark-mode-elements);
+    }
+
+    &__closed {
+      display: none;
+    }
+  }
+
+  @mixin options__item($text-color) {
+    border: none;
+    display: flex;
+    padding: 10px 0 0 0;
+    color: $text-color;
+    background-color: inherit;
+    font-size: 16px;
+    font-weight: 600px;
+    cursor: pointer;
+  }
+
+  &__select-menu {
+    @include options__item($light-mode-text);
+  }
+
+  &__select-menu__dark {
+    @include options__item($dark-mode-text);
+  }
+}
+
+%search-bar {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+@mixin set-background($background-color) {
+  content: "";
+  background-color: $background-color;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+%countries {
+  display: grid;
+  row-gap: 60px;
+  column-gap: 60px;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0 80px;
+}
+
+.countries::before {
+  @include set-background($light-mode-background);
+}
+
+.countries__dark::before {
+  @include set-background($dark-mode-background);
+}
+
+.countries {
+  @extend %countries;
+  @extend %decoration-none;
+  @extend %country__stats;
+  @include xxl {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include xl {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include md {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @include sm {
+    padding: 0 30px;
+  }
+  color: $light-mode-text;
+
+  &__dark {
+    @extend %countries;
+    @extend %decoration-none;
+    @extend %country__stats__dark;
+    @include xxl {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @include xl {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include md {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+    }
+    @include sm {
+      padding: 0 30px;
+    }
+    color: $dark-mode-text;
+  }
+}
+
+%country__container {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.country__container {
+  img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  @extend %country__container;
+  background-color: $light-mode-elements;
+  color: $light-mode-text;
+
+  &__dark {
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    @extend %country__container;
+    background-color: $dark-mode-elements;
+    color: $dark-mode-text;
+  }
+}
+
+%country__stats {
+  .country__name {
+    margin: 0 0 20px 0;
+  }
+
+  .country__informations {
+    padding: 20px;
+
+    .country__information {
+      color: $light-mode-text;
+      margin: 10px 0 0 0;
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+%country__stats__dark {
+  .country__name__dark {
+    margin: 0 0 20px 0;
+  }
+
+  .country__informations__dark {
+    padding: 20px;
+
+    .country__information__dark {
+      color: $dark-mode-text;
+      margin: 10px 0 0 0;
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+%country-information__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 80px 0;
+
+  @include xl {
+    display: flex;
+    flex-direction: column;
+    margin: 80px 0;
+    gap: 30px;
+  }
+}
+
+@mixin country-information__buttons($button-color, $text-color, $position) {
+  background-color: $button-color;
+  position: $position;
+  top: 0;
+  color: $text-color;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+
+  span {
+    margin: 0 0 0 10px;
+  }
+}
+
+%country-information__image-container {
+  width: 100%;
+  padding: 0 100px 0 0;
+
+  img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+  }
+
+  @include xxl {
+    img {
+      height: 400px;
+    }
+  }
+
+  @include xl {
+    padding: 0;
+
+    img {
+      height: 350px;
+    }
+  }
+
+  @include md {
+    img {
+      height: 300px;
+    }
+  }
+
+  @include sm {
+    img {
+      height: 200px;
+    }
+  }
+}
+
+%country-information__informations-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+%country-information__informations {
+  display: flex;
+  justify-content: space-between;
+  gap: 100px;
+}
+
+%country-information__information {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+
+  span {
+    font-weight: 600;
+  }
+}
+
+%country-information__borders-countries {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  p {
+    font-weight: 600;
+  }
+}
+
+@mixin country-information($text-color, $background-color, $button-color) {
+  background-color: $background-color;
+  margin: 50px 80px;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  img {
+    height: 160px;
+  }
+
+  .specific-country__container {
+    @extend %country-information__container;
+    color: $text-color;
+    &__dark {
+      @extend %country-information__container;
+      color: $text-color;
+    }
+  }
+
+  .specific-country__back {
+    @include country-information__buttons(
+      $light-mode-elements,
+      $light-mode-text,
+      absolute
+    );
+
+    &__dark {
+      @include country-information__buttons(
+        $dark-mode-elements,
+        $dark-mode-text,
+        absolute
+      );
+    }
+  }
+
+  .specific-country__image-container {
+    @extend %country-information__image-container;
+  }
+
+  .specific-country__informations-container {
+    @extend %country-information__informations-container;
+
+    &__dark {
+      @extend %country-information__informations-container;
+    }
+  }
+
+  .specific-country__informations {
+    @extend %country-information__informations;
+
+    &__dark {
+      @extend %country-information__informations;
+    }
+  }
+
+  .specific-country__information {
+    @extend %country-information__information;
+
+    &__dark {
+      @extend %country-information__information;
+    }
+  }
+
+  .specific-country__border-countries {
+    @extend %country-information__borders-countries;
+
+    button {
+      @include country-information__buttons(
+        $light-mode-elements,
+        $light-mode-text,
+        flex
+      );
+    }
+
+    &__dark {
+      @extend %country-information__borders-countries;
+      button {
+        @include country-information__buttons(
+          $dark-mode-elements,
+          $dark-mode-text,
+          flex
+        );
+      }
+    }
+  }
+}
+
+.specific-country {
+  @include country-information(
+    $light-mode-text,
+    $light-mode-background,
+    $light-mode-elements
+  );
+
+  @include sm {
+    margin: 40px 30px;
+  }
+
+  @include md {
+    margin: 40px 40px;
+  }
+
+  @include xl {
+    display: flex;
+    justify-content: center;
+  }
+}
+.specific-country__dark {
+  @include country-information(
+    $dark-mode-text,
+    $dark-mode-background,
+    $dark-mode-elements
+  );
+
+  @include sm {
+    margin: 40px 30px;
+  }
+
+  @include md {
+    margin: 40px 40px;
+  }
+
+  @include xl {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.specific-country::before {
+  @include set-background($light-mode-background);
+}
+
+.specific-country__dark::before {
+  @include set-background($dark-mode-background);
+}
